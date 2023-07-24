@@ -31,8 +31,15 @@ async function run() {
     const collegeCollection = client.db('collegeDB').collection('college')
     const applyCollection = client.db('collegeDB').collection('applyCollege')
 
+    // all college api
     app.get('/college', async(req, res) =>{
       const result = await collegeCollection.find().toArray()
+      res.send(result)
+    })
+
+    // apply college
+    app.get('/applyCollege', async(req,res) =>{
+      const result = await applyCollection.find().toArray();
       res.send(result)
     })
 
