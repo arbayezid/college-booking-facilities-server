@@ -26,10 +26,21 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
     const collegeCollection = client.db('collegeDB').collection('college')
     const applyCollection = client.db('collegeDB').collection('applyCollege')
+
+
+    app.get('/getCardByName/:text', async (req, res) => {
+      const searchText = req.params.text;
+      const result = await collegeCollection.find({
+        $or: [
+          { college_name: { $regex: searchText, $options: 'i' } }
+        ]
+      }).toArray()
+      res.send(result)
+    })
 
     // all college api
     app.get('/college', async(req, res) =>{
